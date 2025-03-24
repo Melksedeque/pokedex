@@ -14,7 +14,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --clear: #EFEFEF;
+  --black: #212121;
+  --gray: #666666;
   --red: #DC0A2D;
+  --light: #E0E0E0;
+  --white: #FFFFFF;
+
   --bug: #A7B723;
   --dark: #75574C;
   --dragon: #7037FF;
@@ -34,9 +40,6 @@
   --steel: #B7B9D0;
   --water: #6493EB;
 
-  --black: #1e1e1e;
-  --white: #f5f5f5;
-  --gray: #d9d9d9;
   --blue: #007bff;
   --green: #28a745;
   --yellow: #ffc107;
