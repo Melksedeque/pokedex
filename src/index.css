@@ -95,7 +95,7 @@ button:focus-visible {
     background-color: var(--clear);
   }
   a:hover {
-    color: #747bff;
+    color: var(--primary);
   }
   button {
     background-color: #f9f9f9;
