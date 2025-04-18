@@ -98,6 +98,6 @@ button:focus-visible {
     color: var(--primary);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--clear);
   }
 }
