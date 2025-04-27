@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
   font-family: "Poppins", sans-serif;
@@ -14,37 +14,37 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --clear: #EFEFEF;
+  --clear: #efefef;
   --black: #212121;
   --gray: #666666;
-  --red: #DC0A2D;
-  --light: #E0E0E0;
-  --white: #FFFFFF;
+  --red: #dc0a2d;
+  --light: #e0e0e0;
+  --white: #ffffff;
 
-  --bug: #A7B723;
-  --dark: #75574C;
-  --dragon: #7037FF;
-  --electric: #F9CF30;
-  --fairy: #E69EAC;
-  --fighting: #C12239;
-  --fire: #F57D31;
-  --flying: #A891EC;
-  --ghost: #70559B;
-  --grass: #74CB48;
-  --ground: #DEC16B;
-  --ice: #9AD6DF;
-  --normal: #AAA67F;
-  --poison: #A43E9E;
-  --psychic: #FB5584;
-  --rock: #B69E31;
-  --steel: #B7B9D0;
-  --water: #6493EB;
+  --bug: #a7b723;
+  --dark: #75574c;
+  --dragon: #7037ff;
+  --electric: #f9cf30;
+  --fairy: #e69eac;
+  --fighting: #c12239;
+  --fire: #f57d31;
+  --flying: #a891ec;
+  --ghost: #70559b;
+  --grass: #74cb48;
+  --ground: #dec16b;
+  --ice: #9ad6df;
+  --normal: #aaa67f;
+  --poison: #a43e9e;
+  --psychic: #fb5584;
+  --rock: #b69e31;
+  --steel: #b7b9d0;
+  --water: #6493eb;
 
-  --danger: #DC3545;
-  --info: #17A2B8;
-  --success: #28A745;
+  --danger: #dc3545;
+  --info: #17a2b8;
+  --success: #28a745;
   --warning: #ffc107;
-  --primary: #0000FF;
+  --primary: #0000ff;
   --secondary: #222222;
 }
 
@@ -60,9 +60,10 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  place-items: center;
 }
 
 h1 {
