@@ -1,5 +1,4 @@
 import pokemonLogo from "@/public/images/international_Pokémon_logo.svg";
-import "./App.css";
 
 function App() {
   return (
