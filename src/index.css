@@ -58,6 +58,7 @@ a:hover {
 }
 
 body {
+  background-color: var(--red);
   margin: 0;
   display: flex;
   justify-content: center;
