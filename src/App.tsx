@@ -1,4 +1,5 @@
-import pokemonLogo from "@/public/images/international_Pokémon_logo.svg";
+import pokemonLogo from "./assets/images/International_Pokémon_logo.svg";
+import pokeball from "./assets/images/Pokéball.svg";
 
 function App() {
   return (
@@ -8,7 +9,10 @@ function App() {
           <img src={pokemonLogo} className="logo" alt="Pokémon logo" />
         </a>
       </div>
-      <h1>Pokédex</h1>
+      <h1>
+        <img src={pokeball} alt="Pokéball" />
+        Pokédex
+      </h1>
     </>
   );
 }
