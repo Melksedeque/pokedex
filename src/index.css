@@ -62,10 +62,10 @@ body {
   background-color: var(--red);
   margin: 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   min-width: 320px;
   min-height: 100vh;
-  place-items: center;
+  padding: 0.5rem;
 }
 
 h1 {
