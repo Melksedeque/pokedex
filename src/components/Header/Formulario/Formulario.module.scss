@@ -18,11 +18,14 @@ section.buscarPokemon {
       justify-content: start;
       span,
       input {
+        background-color: transparent;
+        border: 0 none;
         color: var(--red);
-        padding: 0.8rem 1.5rem 0.8rem 2rem;
+        padding: 0.9rem 1rem 0.7rem 1.5rem;
       }
       input {
         color: var(--black);
+        font: normal 1rem/0.75rem var(--font);
         padding-left: 0;
         width: 100%;
         &:focus {
@@ -33,7 +36,7 @@ section.buscarPokemon {
   }
   .filter {
     flex: 0 1 auto;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
     button {
       background-color: var(--white);
       border-radius: 100%;
