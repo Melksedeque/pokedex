@@ -61,11 +61,10 @@ a:hover {
 body {
   background-color: var(--red);
   margin: 0;
-  display: flex;
-  justify-content: start;
   min-width: 320px;
   min-height: 100vh;
   padding: 0.5rem;
+  width: 100%;
 }
 
 h1 {
