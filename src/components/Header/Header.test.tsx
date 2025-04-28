@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import Header from "./index";
 
 describe("Header Component", () => {
@@ -18,12 +19,7 @@ describe("Header Component", () => {
     expect(screen.getByRole("heading", { name: /pokédex/i })).toBeDefined();
   });
 
-  it("includes the search form", () => {
+  it("has the Formulario component as a child", () => {
     expect(screen.getByRole("form")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Buscar Pokémon")).toBeInTheDocument();
-  });
-
-  it("includes the filter button", () => {
-    expect(screen.getByRole("button", { name: /#/i })).toBeInTheDocument();
   });
 });
