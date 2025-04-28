@@ -46,6 +46,8 @@
   --warning: #ffc107;
   --primary: #0d6efd;
   --secondary: #aeb2b6;
+
+  --fonte: "Poppins", sans-serif;
 }
 
 a {
@@ -62,7 +64,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  padding: 0.5rem;
   width: 100%;
 }
 
@@ -88,6 +89,10 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 0 auto -webkit-focus-ring-color;
+}
+
+#root {
+  padding: 0.5rem;
 }
 
 @media (prefers-color-scheme: light) {
