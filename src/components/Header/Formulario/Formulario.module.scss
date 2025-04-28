@@ -1,0 +1,15 @@
+section.buscarPokemon {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 100%;
+  .formBusca {
+    flex: 1 1 80%;
+    
+  }
+  .filter {
+    flex: 1 1 auto;
+  }
+}
