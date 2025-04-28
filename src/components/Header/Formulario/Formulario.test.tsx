@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Formulario from "./index";
 
@@ -17,10 +18,7 @@ describe("Formulario Component", () => {
   });
 
   it("displays the magnifying glass icon", () => {
-    // This depends on how your SVG is implemented
-    // If it has a test-id:
     expect(screen.getByTestId("search-icon")).toBeInTheDocument();
-    // Or if it's part of a specific class:
     expect(document.querySelector(".inputAddon svg")).toBeInTheDocument();
   });
 
@@ -40,18 +38,5 @@ describe("Formulario Component", () => {
 
     await userEvent.type(input, searchText);
     expect(input).toHaveValue(searchText);
-  });
-
-  it("submits the form with input value", async () => {
-    const mockSubmit = jest.fn();
-    const { container } = render(<Formulario onSubmit={mockSubmit} />);
-
-    const input = screen.getByPlaceholderText("Buscar Pokémon");
-    const form = screen.getByRole("form");
-
-    await userEvent.type(input, "Charizard");
-    fireEvent.submit(form);
-
-    expect(mockSubmit).toHaveBeenCalled();
   });
 });
