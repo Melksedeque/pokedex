@@ -14,4 +14,13 @@ export default defineConfig({
       types: path.resolve(__dirname, "./src/types"),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use "styles/_breakpoints.scss" as *;
+        `,
+      },
+    },
+  },
 });
