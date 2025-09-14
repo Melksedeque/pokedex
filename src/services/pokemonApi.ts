@@ -110,6 +110,19 @@ export class PokemonApiService {
   }
 
   /**
+   * Busca informações da espécie do Pokémon
+   */
+  async getPokemonSpecies(nameOrId: string | number): Promise<PokemonSpecies> {
+    try {
+      const response = await this.api.get<PokemonSpecies>(`/pokemon-species/${nameOrId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar espécie do Pokémon:', error);
+      throw new Error(`Falha ao carregar informações da espécie do Pokémon: ${nameOrId}`);
+    }
+  }
+
+  /**
    * Extrai o ID do Pokémon a partir da URL
    * @param url URL do Pokémon da API
    * @returns ID do Pokémon
