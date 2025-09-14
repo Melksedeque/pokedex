@@ -114,7 +114,7 @@ export class PokemonApiService {
    */
   async getPokemonSpecies(nameOrId: string | number): Promise<PokemonSpecies> {
     try {
-      const response = await this.api.get<PokemonSpecies>(`/pokemon-species/${nameOrId}`);
+      const response = await api.get<PokemonSpecies>(`/pokemon-species/${nameOrId}`);
       return response.data;
     } catch (error) {
       console.error('Erro ao buscar espécie do Pokémon:', error);
