@@ -1,4 +1,4 @@
-import pokeball from "@/src/assets/images/Pokéball.svg";
+import pokeball from "assets/images/Pokéball.svg";
 import styles from "./Header.module.scss";
 import Formulario from "./Formulario";
 
