@@ -1,0 +1,487 @@
+@import './styles/breakpoints';
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gridItemEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pokemonList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out;
+
+  @media (min-width: $sm) {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  @media (min-width: $lg) {
+    padding: 2rem;
+  }
+}
+
+.listInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--white) 0%,
+    #f8f9fa 100%
+  );
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  @media (min-width: $sm) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.resultCount {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--black);
+  
+  @media (min-width: $sm) {
+    font-size: 1rem;
+  }
+}
+
+.sortInfo {
+  font-size: 0.8rem;
+  color: var(--gray);
+  font-weight: 500;
+  
+  @media (min-width: $sm) {
+    font-size: 0.9rem;
+  }
+}
+
+.pokemonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  
+  // Mobile: 1 coluna
+  @media (max-width: $xs) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  // Tablet: 2 colunas
+  @media (min-width: $sm) and (max-width: $md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  // Desktop: 3-4 colunas
+  @media (min-width: $lg) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  @media (min-width: $xl) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.gridItem {
+  animation: gridItemEntrance 0.6s ease-out both;
+  
+  // Stagger animation para cada item
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+  &:nth-child(5) { animation-delay: 0.5s; }
+  &:nth-child(6) { animation-delay: 0.6s; }
+  &:nth-child(7) { animation-delay: 0.7s; }
+  &:nth-child(8) { animation-delay: 0.8s; }
+  &:nth-child(n+9) { animation-delay: 0.9s; }
+}
+
+.loadMoreContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.loadMoreButton {
+  background: linear-gradient(
+    135deg,
+    var(--red) 0%,
+    #e53e3e 100%
+  );
+  border: none;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 12px rgba(220, 10, 45, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 200px;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 20px rgba(220, 10, 45, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(
+      135deg,
+      #e53e3e 0%,
+      var(--red) 100%
+    );
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 
+      0 4px 12px rgba(220, 10, 45, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 0 0 3px rgba(220, 10, 45, 0.3);
+  }
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid var(--white);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.endMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray);
+  font-weight: 500;
+  
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+    
+    @media (min-width: $sm) {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+// Estados de erro e vazio
+.errorState {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorContent {
+  text-align: center;
+  padding: 2rem;
+  max-width: 400px;
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.errorTitle {
+  color: var(--black);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.errorMessage {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+}
+
+.retryButton {
+  background: var(--red);
+  border: none;
+  border-radius: 25px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    background: #e53e3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 10, 45, 0.3);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 10, 45, 0.3);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--gray);
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.emptyTitle {
+  color: var(--black);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Responsividade específica para mobile
+@media (max-width: $xs) {
+  .pokemonList {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  
+  .listInfo {
+    padding: 0.75rem;
+    margin: 0 0.25rem;
+  }
+  
+  .resultCount {
+    font-size: 0.8rem;
+  }
+  
+  .sortInfo {
+    font-size: 0.75rem;
+  }
+  
+  .loadMoreButton {
+    font-size: 0.9rem;
+    padding: 0.875rem 1.5rem;
+    min-width: 180px;
+  }
+  
+  .errorContent {
+    padding: 1.5rem;
+  }
+  
+  .errorTitle {
+    font-size: 1.25rem;
+  }
+  
+  .errorMessage {
+    font-size: 0.9rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.25rem;
+  }
+  
+  .emptyMessage {
+    font-size: 0.9rem;
+  }
+}
+
+// Redução de movimento para acessibilidade
+@media (prefers-reduced-motion: reduce) {
+  .pokemonList {
+    animation: none;
+  }
+  
+  .gridItem {
+    animation: none;
+  }
+  
+  .loadingSpinner {
+    animation: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--white);
+  }
+  
+  .loadMoreButton:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  .retryButton:hover {
+    transform: none;
+  }
+}
+
+// Modo escuro
+@media (prefers-color-scheme: dark) {
+  .listInfo {
+    background: linear-gradient(
+      135deg,
+      #2a2a2a 0%,
+      #1a1a1a 100%
+    );
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .resultCount {
+    color: var(--white);
+  }
+  
+  .sortInfo {
+    color: var(--light);
+  }
+  
+  .errorTitle {
+    color: var(--white);
+  }
+  
+  .errorMessage {
+    color: var(--light);
+  }
+  
+  .emptyTitle {
+    color: var(--white);
+  }
+  
+  .emptyMessage {
+    color: var(--light);
+  }
+  
+  .endMessage {
+    color: var(--light);
+  }
+}
+
+// Estados de loading com skeleton
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  
+  @media (max-width: $xs) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.skeletonCard {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 20px;
+  height: 280px;
+  
+  @media (max-width: $xs) {
+    height: 240px;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Otimizações de performance
+.pokemonGrid {
+  contain: layout style;
+  will-change: transform;
+}
+
+.gridItem {
+  contain: layout style paint;
+}
