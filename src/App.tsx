@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { PokemonListItem } from './types/pokemon';
-import PokemonList from './components/PokemonList';
-import PokemonDetails from './components/PokemonDetails';
-import Header from './components/Header';
+import { PokemonListItem } from 'types/pokemon';
+import PokemonList from 'components/PokemonList';
+import PokemonDetails from 'components/PokemonDetails';
+import Header from 'components/Header';
 import './App.css';
 
 type AppView = 'list' | 'details';
@@ -39,8 +39,8 @@ function App() {
         ) : (
           selectedPokemon && (
             <PokemonDetails 
-              pokemonId={extractIdFromUrl(selectedPokemon.url)}
-              onBack={handleBackToList}
+              pokemon={extractIdFromUrl(selectedPokemon.url).toString()}
+              onClose={handleBackToList}
             />
           )
         )}
