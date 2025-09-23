@@ -461,6 +461,44 @@
   font-weight: 600;
 }
 
+.abilitiesSection {
+  margin-top: 2rem;
+  
+  h3 {
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.abilitiesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.abilityTag {
+  background: var(--primary-color-light, rgba(220, 10, 45, 0.1));
+  border: 2px solid var(--primary-color, var(--red));
+  border-radius: 12px;
+  color: var(--primary-color, var(--red));
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  
+  &.hiddenAbility {
+    background: rgba(128, 128, 128, 0.1);
+    border-color: var(--gray);
+    color: var(--gray);
+  }
+}
+
 .statsTab {
   animation: fadeIn 0.5s ease-out;
 }
