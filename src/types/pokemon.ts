@@ -242,6 +242,18 @@ export interface PokemonState {
   totalPages: number;
 }
 
+// Tipo union para nomes dos tipos de Pokémon
+export type PokemonTypeName = 
+  | 'normal' | 'fire' | 'water' | 'electric' | 'grass' | 'ice'
+  | 'fighting' | 'poison' | 'ground' | 'flying' | 'psychic' | 'bug'
+  | 'rock' | 'ghost' | 'dragon' | 'dark' | 'steel' | 'fairy';
+
+// Interface para opções de ordenação
+export interface SortOption {
+  label: string;
+  value: 'number' | 'name' | 'id' | 'id-desc' | 'name-desc';
+}
+
 // Tipos para cores dos tipos de Pokémon
 export type PokemonTypeColor = {
   [key: string]: string;
