@@ -365,11 +365,15 @@ describe('PokemonList', () => {
       });
     });
 
-    it('deve ocultar botão "Carregar Mais" quando showLoadMore é false', async () => {
-      render(<PokemonList showLoadMore={false} />);
+    it('deve usar scroll infinito em vez de botão', async () => {
+      render(<PokemonList />);
       
       await waitFor(() => {
+        // Verifica que não há botão "Carregar Mais"
         expect(screen.queryByText('Carregar Mais Pokémon')).not.toBeInTheDocument();
+        // Verifica que o elemento sentinel está presente
+        const sentinel = document.querySelector('.scrollSentinel');
+        expect(sentinel).toBeInTheDocument();
       });
     });
   });
