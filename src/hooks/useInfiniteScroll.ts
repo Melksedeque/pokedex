@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 
 interface UseInfiniteScrollOptions {
   /**
@@ -43,6 +43,7 @@ export const useInfiniteScroll = ({
 }: UseInfiniteScrollOptions) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const [isPreparing, setIsPreparing] = useState(false);
 
   // Função para verificar se deve carregar mais conteúdo
   const checkScrollPosition = useCallback(() => {
@@ -85,7 +86,14 @@ export const useInfiniteScroll = ({
         
         // Se o sentinel está visível e podemos carregar mais
         if (entry.isIntersecting && hasMore && !isLoading) {
-          onLoadMore();
+          // Ativa estado de preparação para feedback imediato
+          setIsPreparing(true);
+          
+          // Pequeno delay para mostrar o estado de preparação
+          setTimeout(() => {
+            setIsPreparing(false);
+            onLoadMore();
+          }, 150);
         }
       },
       {
@@ -134,7 +142,13 @@ export const useInfiniteScroll = ({
      * Ref para o elemento sentinel que deve ser colocado no final da lista
      * Este elemento invisível dispara o carregamento quando entra na viewport
      */
-    sentinelRef
+    sentinelRef,
+    
+    /**
+     * Estado que indica se está se preparando para carregar mais conteúdo
+     * Útil para mostrar feedback imediato ao usuário
+     */
+    isPreparing
   };
 };
 
