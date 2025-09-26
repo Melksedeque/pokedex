@@ -77,11 +77,11 @@ const PokemonList: React.FC<PokemonListProps> = ({
   }, [currentOffset, limit, loadingMore, hasMore, totalCount]);
 
   // Hook para scroll infinito - como a Força, detecta quando você precisa de mais Pokémon! ⚡
-  const { sentinelRef } = useInfiniteScroll({
+  const { sentinelRef, isPreparing } = useInfiniteScroll({
     onLoadMore: loadMorePokemon,
     hasMore: hasMore && !searchTerm, // Só carrega mais se não estiver em busca
     isLoading: loadingMore,
-    threshold: 200 // Carrega quando está a 200px do final
+    threshold: 400 // Carrega quando está a 400px do final
   });
 
   // Função para buscar Pokémon por nome
@@ -289,13 +289,31 @@ const PokemonList: React.FC<PokemonListProps> = ({
         />
       )}
 
-      {/* Loading para carregar mais */}
+      {/* Indicador de preparação - feedback imediato como um Patronus! ✨ */}
+      {isPreparing && !loadingMore && (
+        <div className={styles.preparingIndicator}>
+          <div className={styles.preparingDots}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p className={styles.preparingText}>Preparando...</p>
+        </div>
+      )}
+
+      {/* Loading melhorado para scroll infinito */}
       {loadingMore && (
-        <div className={styles.loadingMore}>
+        <div className={styles.infiniteScrollLoading}>
           <Loading 
-            message="Carregando mais Pokémon..."
+            message=""
             size="small"
           />
+          <p className={styles.loadingText}>
+            Descobrindo mais Pokémon...
+          </p>
+          <p className={styles.loadingSubtext}>
+            ✨ Preparando novas aventuras para você!
+          </p>
         </div>
       )}
 
