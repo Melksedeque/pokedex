@@ -4,6 +4,7 @@ import Loading from '../Loading';
 import PokemonFilters, { FilterState } from '../PokemonFilters';
 import PokemonApiService from '../../services/pokemonApi';
 import { PokemonListItem, Pokemon, SortOption } from '../../types/pokemon';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import styles from './PokemonList.module.scss';
 
 interface PokemonListProps {
@@ -11,15 +12,13 @@ interface PokemonListProps {
   selectedPokemon?: PokemonListItem | null;
   className?: string;
   limit?: number;
-  showLoadMore?: boolean;
 }
 
 const PokemonList: React.FC<PokemonListProps> = ({
   onPokemonSelect,
   selectedPokemon,
   className = '',
-  limit = 20,
-  showLoadMore = true
+  limit = 20
 }) => {
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,6 +75,14 @@ const PokemonList: React.FC<PokemonListProps> = ({
       setLoadingMore(false);
     }
   }, [currentOffset, limit, loadingMore, hasMore, totalCount]);
+
+  // Hook para scroll infinito - como a Força, detecta quando você precisa de mais Pokémon! ⚡
+  const { sentinelRef } = useInfiniteScroll({
+    onLoadMore: loadMorePokemon,
+    hasMore: hasMore && !searchTerm, // Só carrega mais se não estiver em busca
+    isLoading: loadingMore,
+    threshold: 200 // Carrega quando está a 200px do final
+  });
 
   // Função para buscar Pokémon por nome
   const searchPokemon = useCallback(async (term: string) => {
@@ -273,26 +280,13 @@ const PokemonList: React.FC<PokemonListProps> = ({
         ))}
       </div>
 
-      {/* Botão carregar mais */}
-      {showLoadMore && hasMore && !searchTerm && (
-        <div className={styles.loadMoreContainer}>
-          <button
-            className={styles.loadMoreButton}
-            onClick={loadMorePokemon}
-            disabled={loadingMore}
-            type="button"
-            aria-label="Carregar mais Pokémon"
-          >
-            {loadingMore ? (
-              <>
-                <div className={styles.loadingSpinner} />
-                Carregando...
-              </>
-            ) : (
-              'Carregar Mais Pokémon'
-            )}
-          </button>
-        </div>
+      {/* Elemento sentinel para scroll infinito - invisível, mas poderoso como um Jedi! */}
+      {hasMore && !searchTerm && (
+        <div 
+          ref={sentinelRef}
+          className={styles.scrollSentinel}
+          aria-hidden="true"
+        />
       )}
 
       {/* Loading para carregar mais */}
