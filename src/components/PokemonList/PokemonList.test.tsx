@@ -73,6 +73,17 @@ const mockSearchResults = [
   }
 ];
 
+// Props padrão para os testes
+const defaultProps = {
+  filters: {
+    types: [],
+    numberRange: { min: 1, max: 1010 }
+  },
+  sortBy: { label: 'Número (Crescente)', value: 'id' as const },
+  searchTerm: '',
+  onLoadingChange: jest.fn()
+};
+
 describe('PokemonList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -88,15 +99,19 @@ describe('PokemonList', () => {
   });
 
   describe('Renderização inicial', () => {
-    it('deve renderizar o componente com loading inicial', () => {
-      render(<PokemonList />);
+    it('deve renderizar o componente sem erros', async () => {
+      mockPokemonApiService.getPokemonList.mockResolvedValue(mockPokemonList);
+
+      render(<PokemonList {...defaultProps} />);
       
       expect(screen.getByTestId('loading')).toBeInTheDocument();
       expect(screen.getByText('Carregando Pokémon...')).toBeInTheDocument();
     });
 
     it('deve carregar e exibir a lista de Pokémon', async () => {
-      render(<PokemonList />);
+      mockPokemonApiService.getPokemonList.mockResolvedValue(mockPokemonList);
+
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByTestId('pokemon-list')).toBeInTheDocument();
@@ -108,7 +123,7 @@ describe('PokemonList', () => {
     });
 
     it('deve exibir informações da lista corretamente', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Mostrando 3 de 1010 Pokémon')).toBeInTheDocument();
@@ -116,7 +131,7 @@ describe('PokemonList', () => {
     });
 
     it('deve chamar a API com parâmetros corretos', async () => {
-      render(<PokemonList limit={10} />);
+      render(<PokemonList {...defaultProps} limit={10} />);
       
       await waitFor(() => {
         expect(mockPokemonApiService.getPokemonList).toHaveBeenCalledWith(0, 10);
@@ -126,7 +141,7 @@ describe('PokemonList', () => {
 
   describe('Funcionalidade de busca', () => {
     it('deve realizar busca quando termo é digitado', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       fireEvent.change(searchInput, { target: { value: 'pikachu' } });
@@ -137,7 +152,7 @@ describe('PokemonList', () => {
     });
 
     it('deve exibir resultados da busca', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       fireEvent.change(searchInput, { target: { value: 'pikachu' } });
@@ -151,7 +166,7 @@ describe('PokemonList', () => {
     it('deve exibir mensagem quando não encontra resultados', async () => {
       mockPokemonApiService.searchPokemonByName.mockResolvedValue([]);
       
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       fireEvent.change(searchInput, { target: { value: 'pokemon-inexistente' } });
@@ -163,7 +178,7 @@ describe('PokemonList', () => {
     });
 
     it('deve aplicar debounce na busca', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       
@@ -187,7 +202,7 @@ describe('PokemonList', () => {
 
   describe('Ordenação', () => {
     it('deve ordenar por número por padrão', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Ordenado por: Número')).toBeInTheDocument();
@@ -195,7 +210,7 @@ describe('PokemonList', () => {
     });
 
     it('deve ordenar por nome quando especificado', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Ordenado por: Nome')).toBeInTheDocument();
@@ -205,7 +220,7 @@ describe('PokemonList', () => {
 
   describe('Carregar mais', () => {
     it('deve exibir botão "Carregar Mais" quando há mais resultados', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Carregar Mais Pokémon')).toBeInTheDocument();
@@ -229,7 +244,7 @@ describe('PokemonList', () => {
         .mockResolvedValueOnce(mockPokemonList)
         .mockResolvedValueOnce(mockMoreResults);
       
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Carregar Mais Pokémon')).toBeInTheDocument();
@@ -243,7 +258,7 @@ describe('PokemonList', () => {
     });
 
     it('não deve exibir botão "Carregar Mais" durante busca', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       fireEvent.change(searchInput, { target: { value: 'pikachu' } });
@@ -254,7 +269,7 @@ describe('PokemonList', () => {
     });
 
     it('deve exibir loading durante carregamento de mais resultados', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Carregar Mais Pokémon')).toBeInTheDocument();
@@ -275,7 +290,7 @@ describe('PokemonList', () => {
     it('deve chamar onPokemonSelect quando um card é clicado', async () => {
       const mockOnSelect = jest.fn();
       
-      render(<PokemonList onPokemonSelect={mockOnSelect} />);
+      render(<PokemonList {...defaultProps} onPokemonSelect={mockOnSelect} />);
       
       await waitFor(() => {
         expect(screen.getByTestId('pokemon-card-bulbasaur')).toBeInTheDocument();
@@ -295,7 +310,7 @@ describe('PokemonList', () => {
         url: 'https://pokeapi.co/api/v2/pokemon/1/'
       };
       
-      render(<PokemonList selectedPokemon={selectedPokemon} />);
+      render(<PokemonList {...defaultProps} selectedPokemon={selectedPokemon} />);
       
       await waitFor(() => {
         const card = screen.getByTestId('pokemon-card-bulbasaur');
@@ -308,7 +323,7 @@ describe('PokemonList', () => {
     it('deve exibir estado de erro quando a API falha', async () => {
       mockPokemonApiService.getPokemonList.mockRejectedValue(new Error('API Error'));
       
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Oops! Algo deu errado')).toBeInTheDocument();
@@ -321,7 +336,7 @@ describe('PokemonList', () => {
         .mockRejectedValueOnce(new Error('API Error'))
         .mockResolvedValueOnce(mockPokemonList);
       
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         expect(screen.getByText('Tentar Novamente')).toBeInTheDocument();
@@ -338,7 +353,7 @@ describe('PokemonList', () => {
     it('deve exibir erro específico para busca', async () => {
       mockPokemonApiService.searchPokemonByName.mockReturnValue([]);
       
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       const searchInput = screen.getByPlaceholderText(/buscar pokémon/i);
       fireEvent.change(searchInput, { target: { value: 'erro' } });
@@ -351,14 +366,14 @@ describe('PokemonList', () => {
 
   describe('Props opcionais', () => {
     it('deve aplicar className personalizada', () => {
-      render(<PokemonList className="custom-class" />);
+      render(<PokemonList {...defaultProps} className="custom-class" />);
       
       const list = screen.getByTestId('pokemon-list');
       expect(list).toHaveClass('custom-class');
     });
 
     it('deve respeitar limite personalizado', async () => {
-      render(<PokemonList limit={5} />);
+      render(<PokemonList {...defaultProps} limit={5} />);
       
       await waitFor(() => {
         expect(mockPokemonApiService.getPokemonList).toHaveBeenCalledWith(0, 5);
@@ -366,7 +381,7 @@ describe('PokemonList', () => {
     });
 
     it('deve usar scroll infinito em vez de botão', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         // Verifica que não há botão "Carregar Mais"
@@ -380,7 +395,7 @@ describe('PokemonList', () => {
 
   describe('Acessibilidade', () => {
     it('deve ter atributos ARIA apropriados', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         const grid = screen.getByRole('grid');
@@ -389,7 +404,7 @@ describe('PokemonList', () => {
     });
 
     it('deve ter labels apropriados nos botões', async () => {
-      render(<PokemonList />);
+      render(<PokemonList {...defaultProps} />);
       
       await waitFor(() => {
         const loadMoreButton = screen.getByLabelText('Carregar mais Pokémon');
@@ -400,10 +415,10 @@ describe('PokemonList', () => {
 
   describe('Performance', () => {
     it('deve usar React.memo para evitar re-renderizações desnecessárias', () => {
-      const { rerender } = render(<PokemonList />);
+      const { rerender } = render(<PokemonList {...defaultProps} />);
       
       // Re-renderização com as mesmas props
-      rerender(<PokemonList />);
+      rerender(<PokemonList {...defaultProps} />);
       
       // Deve manter a mesma instância do componente
       expect(mockPokemonApiService.getPokemonList).toHaveBeenCalledTimes(1);
