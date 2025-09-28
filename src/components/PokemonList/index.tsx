@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PokemonCard from '../PokemonCard';
 import Loading from '../Loading';
-import PokemonFilters, { FilterState } from '../PokemonFilters';
+import { FilterState } from '../PokemonFilters';
 import PokemonApiService from '../../services/pokemonApi';
 import { PokemonListItem, Pokemon, SortOption } from '../../types/pokemon';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
@@ -12,13 +12,22 @@ interface PokemonListProps {
   selectedPokemon?: PokemonListItem | null;
   className?: string;
   limit?: number;
+  // Novos props para filtros
+  filters: FilterState;
+  sortBy: SortOption;
+  searchTerm: string;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
 const PokemonList: React.FC<PokemonListProps> = ({
   onPokemonSelect,
   selectedPokemon,
   className = '',
-  limit = 20
+  limit = 20,
+  filters,
+  sortBy,
+  searchTerm,
+  onLoadingChange
 }) => {
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,12 +36,6 @@ const PokemonList: React.FC<PokemonListProps> = ({
   const [hasMore, setHasMore] = useState(true);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>({ label: 'Number', value: 'number' });
-  const [filters, setFilters] = useState<FilterState>({
-    types: [],
-    numberRange: { min: 1, max: 1010 }
-  });
 
   // Usando métodos estáticos da PokemonApiService
 
@@ -165,18 +168,10 @@ const PokemonList: React.FC<PokemonListProps> = ({
     return () => clearTimeout(timeoutId);
   }, [searchTerm, searchPokemon, loadInitialPokemon]);
 
-  // Handlers para os filtros
-  const handleFilterChange = (newFilters: FilterState) => {
-    setFilters(newFilters);
-  };
-
-  const handleSortChange = (newSort: SortOption) => {
-    setSortBy(newSort);
-  };
-
-  const handleSearchChange = (newSearch: string) => {
-    setSearchTerm(newSearch);
-  };
+  // Efeito para notificar mudanças de loading
+  useEffect(() => {
+    onLoadingChange?.(loading || loadingMore);
+  }, [loading, loadingMore, onLoadingChange]);
 
   // Função para lidar com clique no card
   const handlePokemonClick = useCallback((pokemon: Pokemon) => {
@@ -227,17 +222,6 @@ const PokemonList: React.FC<PokemonListProps> = ({
 
   return (
     <div className={`${styles.pokemonList} ${className}`} data-testid="pokemon-list">
-      {/* Componente de filtros */}
-      <PokemonFilters
-        onFilterChange={handleFilterChange}
-        onSortChange={handleSortChange}
-        onSearchChange={handleSearchChange}
-        currentFilters={filters}
-        currentSort={sortBy}
-        currentSearch={searchTerm}
-        isLoading={loading || loadingMore}
-      />
-
       {/* Informações da lista */}
       <div className={styles.listInfo}>
         <div className={styles.resultCount}>
