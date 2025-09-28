@@ -2,9 +2,25 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Header from "./index";
 
+// Props padrão para os testes
+const defaultProps = {
+  onFilterChange: jest.fn(),
+  onSortChange: jest.fn(),
+  onSearchChange: jest.fn(),
+  currentFilters: {
+    types: [],
+    numberRange: { min: 1, max: 1010 }
+  },
+  currentSort: { label: 'Número (Crescente)', value: 'id' as const },
+  currentSearch: '',
+  searchTerm: '',
+  isLoading: false
+};
+
 describe("Header Component", () => {
   beforeEach(() => {
-    render(<Header />);
+    jest.clearAllMocks();
+    render(<Header {...defaultProps} />);
   });
 
   it("renders correctly", () => {
@@ -19,7 +35,8 @@ describe("Header Component", () => {
     expect(screen.getByRole("heading", { name: /pokédex/i })).toBeDefined();
   });
 
-  it("has the Formulario component as a child", () => {
-    expect(screen.getByRole("form")).toBeInTheDocument();
+  it("has the PokemonFilters component as a child", () => {
+    // Verifica se os elementos de filtro estão presentes
+    expect(screen.getByPlaceholderText(/buscar pokémon/i)).toBeInTheDocument();
   });
 });
