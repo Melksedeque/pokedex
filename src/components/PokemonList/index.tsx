@@ -97,17 +97,15 @@ const PokemonList: React.FC<PokemonListProps> = ({
     try {
       setLoading(true);
       setError(null);
-      
-      const results = PokemonApiService.searchPokemonByName(term.toLowerCase().trim(), pokemonList);
-      
-      if (results.length === 0) {
-        setError(`Nenhum Pokémon encontrado com o nome "${term}".`);
-        setPokemonList([]);
-      } else {
-        setPokemonList(results);
-        setError(null);
-      }
-      
+
+      // Buscar na lista completa de Pokémon para garantir resultados de busca parcial
+      const allPokemon = await PokemonApiService.getAllPokemon();
+      const results = PokemonApiService.searchPokemonByName(term.toLowerCase().trim(), allPokemon);
+
+      // Para o caso de nenhum resultado, não marcar como erro. O estado vazio cuidará da mensagem.
+      setPokemonList(results);
+      setError(null);
+
       setHasMore(false); // Não há "carregar mais" em busca
     } catch (err) {
       console.error('Erro na busca:', err);
