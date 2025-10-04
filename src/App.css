@@ -74,7 +74,8 @@ body {
   font-family: var(--font-primary);
   line-height: 1.6;
   color: var(--color-text-primary);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Fundo vermelho usando cores predefinidas */
+  background: var(--color-danger);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -85,7 +86,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Fundo vermelho usando cores predefinidas */
+  background: var(--color-danger);
 }
 
 /* Conteúdo principal */
