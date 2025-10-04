@@ -50,6 +50,12 @@
   --fonte: "Poppins", sans-serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 a {
   font-weight: 400;
   color: #646cff;
